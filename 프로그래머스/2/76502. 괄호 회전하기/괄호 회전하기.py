@@ -22,7 +22,7 @@ def solution(s):
                 else:
                     check = False
                     
-        if check and len(stack) == 0:
+        if len(stack) == 0 and check:
             answer += 1
                 
     return answer
