@@ -7,18 +7,21 @@ def solution(prices):
             stack.append((i, prices[i]))
         else:
             while stack:
-                if stack[-1][1] > prices[i]:
-                    idx, p = stack.pop()
-                    answer[idx] = i - idx
-                else:
+                idx, p = stack[-1]
+                
+                if p <= prices[i]:
                     break
                     
+                stack.pop()
+                answer[idx] = i - idx
+                
             stack.append((i, prices[i]))
     
     while stack:
-        idx, p = stack.pop()
-        answer[idx] = len(prices) - idx - 1
+        idx, _ = stack.pop()
         
+        answer[idx] = len(prices) - idx - 1
+    
     return answer
                     
                 
