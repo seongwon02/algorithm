@@ -1,21 +1,19 @@
 def solution(participant, completion):
-    answer = {}
+    completion_dict = {}
     
-    for name in completion:
-        if name in answer:
-            answer[name] += 1
+    for c in completion:
+        if c not in completion_dict:
+            completion_dict[c] = 1
         else:
-            answer[name] = 1
-    
-    for name in participant:
-        if name not in answer:
-            return name
+            completion_dict[c] += 1
+            
+    for p in participant:
+        if p in completion_dict:
+            if completion_dict[p]:
+                completion_dict[p] -= 1
+            else:
+                return p
         else:
-            answer[name] -= 1
-    
-    for name in completion:
-        if answer[name] != 0:
-            return name
-    
-    return None
+            return p
+    return
 
