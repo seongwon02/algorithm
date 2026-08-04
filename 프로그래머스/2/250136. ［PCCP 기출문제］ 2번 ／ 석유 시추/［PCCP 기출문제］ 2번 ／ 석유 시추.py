@@ -1,40 +1,41 @@
-import sys
-sys.setrecursionlimit(1000000)
+from collections import deque
 
 def solution(land):
-    n = len(land)
-    m = len(land[0])
-    answer = [0 for _ in range(m)]
+    answer = 0
+    q = deque()
+    info = {}
     movement = [[0,0,1,-1], [1,-1,0,0]]
-    oil_land = set()
-    
-    def find_oil(x, y):
-        if land[x][y] == 0:
-            return 0
-        
-        land[x][y] = 0
-        total = 1
-        oil_land.add(y)
-        
-        for i in range(4):
-            nx = x + movement[0][i]
-            ny = y + movement[1][i]
-            
-            if 0<=nx<len(land) and 0<=ny<len(land[0]):
-                total += find_oil(nx, ny)
-        
-        return total
-            
-    for i in range(n):
-        for j in range(m):
+
+    for i in range(len(land)):
+        for j in range(len(land[0])):
             if land[i][j] == 0:
                 continue
             
-            total = find_oil(i, j)
-            
-            for k in oil_land:
-                answer[k] += total
-            
-            oil_land.clear()
-    
-    return max(answer)
+            s = set()
+            q.append([i, j])
+            land[i][j] = 0
+            scale = 0
+
+            while q:
+                x, y = q.popleft()
+                scale += 1
+                s.add(y)
+
+                for k in range(4):
+                    nx = x + movement[0][k]
+                    ny = y + movement[1][k]
+
+                    if 0<=nx<len(land) and 0<=ny<len(land[0]) and land[nx][ny]:
+                        land[nx][ny] = 0
+                        q.append([nx,ny])
+
+
+            s = list(s)
+
+            for a in s:
+                if a in info:
+                    info[a] += scale
+                else:
+                    info[a] = scale
+
+    return max(info.values())
