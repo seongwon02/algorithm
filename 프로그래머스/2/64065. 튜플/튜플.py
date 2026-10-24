@@ -1,17 +1,17 @@
 def solution(s):
-    s = s[2:-2].split('},{')
-    nd = {}
+    answer = []
+    s = s[2:-2]
+    li = s.split('},{')
+    tup = set()
+    li = sorted(li, key = lambda x: len(x))
     
-    for x in s:
-        nums = x.split(',')
+    for data in li:
+        nums = data.split(',')
         
         for n in nums:
             n = int(n)
+            if n not in tup:
+                answer.append(n)
+                tup.add(n)
             
-            if n in nd:
-                nd[n] += 1
-            else:
-                nd[n] = 1
-    
-    answer = sorted(nd.keys(), key= lambda x: nd[x], reverse = True)
     return answer
